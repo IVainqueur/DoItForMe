@@ -8,17 +8,20 @@ const app = new App({
     token: process.env.SLACK_BOT_TOKEN,
     signingSecret: process.env.SLACK_SIGNING_SECRET,
     socketMode: true,
-    appToken: process.env.SLACK_APP_TOKEN
+    appToken: process.env.SLACK_APP_TOKEN,
+    port: process.env.PORT || 3000
 });
 
 
 
 (async () => {
-    await app.start(process.env.PORT || 3000);
+    await app.start();
     console.log('⚡️ Bolt app is running!');
 })();
 
-app.message(/(hello|hi|hey) @doitforme/i, async ({ message, say }) => {
+app.message(/(hello|hi|hey)/i, async ({ message, say }) => {
+    console.log("[LOG] I am being greated by", message.username)
+    console.log(message)
     await say(`Wassup, <@${message.user}>`);
 })
 
